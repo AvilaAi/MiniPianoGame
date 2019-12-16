@@ -10,6 +10,7 @@ const MyPiano = props => {
 	const [tempo, setTempo] = useState([0]);
 	const [newSong, setNewSong] = useState([]);
 	const [record, setRecord] = useState(false);
+	const [showKeyboard, setShowKeyboard] = useState(false);
 
 	var decalage;
 	let c3 = 'audio/c3.mp3';
@@ -38,89 +39,160 @@ const MyPiano = props => {
 	let a22 = 'audio/a22.mp3';
 	let b2 = 'audio/b2.mp3';
 	let s = 'audio/break.mp3';
-	const all = [
-		c3,
-		c33,
-		d3,
-		d33,
-		e3,
-		f3,
-		f33,
-		g3,
-		g33,
-		a3,
-		a33,
-		b3,
-		c4,
-		c2,
-		c22,
-		d2,
-		d22,
-		e2,
-		f2,
-		f22,
-		g2,
-		g22,
-		a2,
-		a22,
-		b2,
-		s,
+
+	const allNotes = [
+		{
+			type: 'white',
+			name: 'C',
+			audio: c2,
+			key: 'S',
+		},
+		{
+			type: 'black',
+			name: 'C#',
+			audio: c22,
+			key: '1',
+		},
+		{
+			name: 'D',
+			type: 'white',
+			audio: d2,
+			key: 'D',
+		},
+		{
+			type: 'black',
+			name: 'D#',
+			audio: d22,
+			key: '2',
+		},
+		{
+			name: 'E',
+			type: 'white',
+			audio: e2,
+			key: 'F',
+		},
+		{
+			name: 'F',
+			type: 'white',
+			audio: f2,
+			key: 'G',
+		},
+		{
+			name: 'F#',
+			audio: f22,
+			type: 'black',
+			key: '3',
+		},
+		{
+			name: 'G',
+			type: 'white',
+			audio: g2,
+			key: 'H',
+		},
+		{
+			name: 'G#',
+			type: 'black',
+			audio: g22,
+			key: '4',
+		},
+		{
+			name: 'A',
+			type: 'white',
+			audio: a2,
+			key: 'J',
+		},
+		{
+			name: 'A#',
+			type: 'black',
+			audio: a22,
+			key: '5',
+		},
+		{
+			name: 'B',
+			type: 'white',
+			audio: b2,
+			key: 'K',
+		},
+		{
+			name: 'C',
+			type: 'white',
+			audio: c3,
+			key: 'L/E',
+		},
+		{
+			name: 'C#',
+			audio: c33,
+			type: 'black',
+			key: '6',
+		},
+		{
+			name: 'D',
+			type: 'white',
+			audio: d3,
+			key: 'R',
+		},
+		{
+			name: 'D#',
+			type: 'black',
+			audio: d33,
+			key: '7',
+		},
+		{
+			name: 'E',
+			type: 'white',
+			audio: e3,
+			key: 'T',
+		},
+		{
+			name: 'F',
+			type: 'white',
+			audio: f3,
+			key: 'Y',
+		},
+		{
+			name: 'F#',
+			audio: f33,
+			type: 'black',
+			key: '8',
+		},
+		{
+			name: 'G',
+			type: 'white',
+			audio: g3,
+			key: 'U',
+		},
+		{
+			name: 'G#',
+			type: 'black',
+			audio: g33,
+			key: '9',
+		},
+		{
+			name: 'A',
+			type: 'white',
+			audio: a3,
+			key: 'I',
+		},
+
+		{
+			name: 'A#',
+			type: 'black',
+			audio: a33,
+			key: '0',
+		},
+		{
+			name: 'B',
+			type: 'white',
+			audio: b3,
+			key: 'O',
+		},
+		{
+			name: 'C',
+			type: 'white',
+			audio: c4,
+			key: 'P',
+		},
 	];
-	const clickRecord = () => {
-		if (record) {
-			setRecord(false);
-			setNewSong([...newSong, s]);
-			setTempo([...tempo, 1000]);
-		} else {
-			setNewSong([]);
-			setTempo([0]);
-			setRecord(true);
-			setTime(null);
-		}
-	};
-
-	const playAudio = async (name, event) => {
-		if (record) {
-			if (time) {
-				decalage = event.timeStamp - time;
-				setTempo([...tempo, decalage]);
-			} else {
-			}
-			setTime(event.timeStamp);
-			setNewSong([...newSong, name]);
-		}
-
-		var audio = document.getElementById(name);
-		if (audio) {
-			audio.currentTime = 0;
-			audio.volume = 0.5;
-
-			audio.play();
-		}
-		setKeyColor({ ...keyColor, [name]: true });
-	};
-
-	const playNewSong = () => {
-		for (let i = 0; i < newSong.length; i++) {
-			setTimeout(() => {
-				playRight(newSong[i]);
-			}, tempo[i] + offset);
-			offset += tempo[i];
-		}
-	};
-
-	const playLeft = name => {
-		setLeft(name);
-		var audio = new Audio(name);
-		audio.volume = 0.5;
-		audio.play();
-	};
-	const playRight = name => {
-		setRight(name);
-		var audio = new Audio(name);
-		audio.volume = 0.5;
-		audio.play();
-	};
 
 	const right1 = [e3, f33, g33, e3, b3, s, s, g33, f33, s, b3, s, f33, s, e3, c33, g33, s, s, e3, d33, s, s, s];
 	const left1 = [s, s, e2, s, g22, s, b2, s, d22, s, b2, s, d33, s, c22, s, g22, s, c33, s, d22, g22, b2, s];
@@ -216,6 +288,41 @@ const MyPiano = props => {
 		1000,
 	];
 
+	// play single note
+	const playAudio = async (name, event) => {
+		if (record) {
+			if (time) {
+				decalage = event.timeStamp - time;
+				setTempo([...tempo, decalage]);
+			} else {
+			}
+			setTime(event.timeStamp);
+			setNewSong([...newSong, name]);
+		}
+
+		var audio = document.getElementById(name);
+		if (audio) {
+			audio.currentTime = 0;
+			audio.volume = 0.5;
+
+			audio.play();
+		}
+		setKeyColor({ ...keyColor, [name]: true });
+	};
+
+	// 2 hands play
+	const playLeft = name => {
+		setLeft(name);
+		var audio = new Audio(name);
+		audio.volume = 0.5;
+		audio.play();
+	};
+	const playRight = name => {
+		setRight(name);
+		var audio = new Audio(name);
+		audio.volume = 0.5;
+		audio.play();
+	};
 	var offset = 0;
 	var count = 0;
 
@@ -290,219 +397,86 @@ const MyPiano = props => {
 		}
 		offset = 0;
 	};
-	const allNotes = [
-		{
-			type: 'white',
-			name: 'C',
-			audio: c2,
-		},
-		{
-			type: 'black',
-			name: 'C#',
-			audio: c22,
-		},
-		{
-			name: 'D',
-			type: 'white',
-			audio: d2,
-		},
-		{
-			type: 'black',
-			name: 'D#',
-			audio: d22,
-		},
-		{
-			name: 'E',
-			type: 'white',
-			audio: e2,
-		},
-		{
-			name: 'F',
-			type: 'white',
-			audio: f2,
-		},
-		{
-			name: 'F#',
-			audio: f22,
-			type: 'black',
-		},
-		{
-			name: 'G',
-			type: 'white',
-			audio: g2,
-		},
-		{
-			name: 'G#',
-			type: 'black',
-			audio: g22,
-		},
-		{
-			name: 'A',
-			type: 'white',
-			audio: a2,
-		},
-		{
-			name: 'A#',
-			type: 'black',
-			audio: a22,
-		},
-		{
-			name: 'B',
-			type: 'white',
-			audio: b2,
-		},
-		{
-			name: 'C',
-			type: 'white',
-			audio: c3,
-		},
-		{
-			name: 'C#',
-			audio: c33,
-			type: 'black',
-		},
-		{
-			name: 'D',
-			type: 'white',
-			audio: d3,
-		},
-		{
-			name: 'D#',
-			type: 'black',
-			audio: d33,
-		},
-		{
-			name: 'E',
-			type: 'white',
-			audio: e3,
-		},
-		{
-			name: 'F',
-			type: 'white',
-			audio: f3,
-		},
-		{
-			name: 'F#',
-			audio: f33,
-			type: 'black',
-		},
-		{
-			name: 'G',
-			type: 'white',
-			audio: g3,
-		},
-		{
-			name: 'G#',
-			type: 'black',
-			audio: g33,
-		},
-		{
-			name: 'A',
-			type: 'white',
-			audio: a3,
-		},
 
-		{
-			name: 'A#',
-			type: 'black',
-			audio: a33,
-		},
-		{
-			name: 'B',
-			type: 'white',
-			audio: b3,
-		},
-		{
-			name: 'C',
-			type: 'white',
-			audio: c4,
-		},
+	//record
+	const clickRecord = () => {
+		if (record) {
+			setRecord(false);
+			setNewSong([...newSong, s]);
+			setTempo([...tempo, 1000]);
+		} else {
+			setNewSong([]);
+			setTempo([0]);
+			setRecord(true);
+			setTime(null);
+		}
+	};
+	// play recorded song
+	const playNewSong = () => {
+		for (let i = 0; i < newSong.length; i++) {
+			setTimeout(() => {
+				playRight(newSong[i]);
+			}, tempo[i] + offset);
+			offset += tempo[i];
+		}
+	};
+
+	// keyboard
+	const keyboard = [
+		83,
+		49,
+		68,
+		50,
+		70,
+		71,
+		51,
+		72,
+		52,
+		74,
+		53,
+		75,
+		69,
+		54,
+		82,
+		55,
+		84,
+		89,
+		56,
+		85,
+		57,
+		73,
+		48,
+		79,
+		80,
 	];
 
 	document.onkeydown = e => {
 		var keyNum = window.event ? e.keyCode : e.which;
 		if (e.repeat) return;
-		if (keyNum === 90) {
-			playAudio(c3, e);
+		const index = keyboard.indexOf(keyNum);
+		if (keyNum === 76) {
+			playAudio(allNotes[12].audio, e);
 		}
-		if (keyNum === 88) {
-			playAudio(d3, e);
-		}
-		if (keyNum === 67) {
-			playAudio(e3, e);
-		}
-		if (keyNum === 86) {
-			playAudio(f3, e);
-		}
-		if (keyNum === 66) {
-			playAudio(g3, e);
-		}
-		if (keyNum === 78) {
-			playAudio(a3, e);
-		}
-		if (keyNum === 77) {
-			playAudio(b3, e);
-		}
-		if (keyNum === 188) {
-			playAudio(c4, e);
-		}
-		if (keyNum === 83) {
-			playAudio(c33, e);
-		}
-		if (keyNum === 68) {
-			playAudio(d33, e);
-		}
-		if (keyNum === 72) {
-			playAudio(f33, e);
-		}
-		if (keyNum === 74) {
-			playAudio(g33, e);
-		}
-		if (keyNum === 75) {
-			playAudio(a33, e);
-		}
-		if (keyNum === 81) {
-			playAudio(c2, e);
-		}
-		if (keyNum === 87) {
-			playAudio(d2, e);
-		}
-		if (keyNum === 69) {
-			playAudio(e2, e);
-		}
-		if (keyNum === 82) {
-			playAudio(f2, e);
-		}
-		if (keyNum === 84) {
-			playAudio(g2, e);
-		}
-		if (keyNum === 89) {
-			playAudio(a2, e);
-		}
-		if (keyNum === 85) {
-			playAudio(b2, e);
-		}
-		if (keyNum === 50) {
-			playAudio(c22, e);
-		}
-		if (keyNum === 51) {
-			playAudio(d22, e);
-		}
-		if (keyNum === 54) {
-			playAudio(f22, e);
-		}
-		if (keyNum === 55) {
-			playAudio(g22, e);
-		}
-		if (keyNum === 56) {
-			playAudio(a22, e);
+		if (index !== -1) {
+			playAudio(allNotes[index].audio, e);
 		}
 	};
 
 	return (
 		<div className='page'>
-			{all.map(note => {
-				return <audio onEnded={() => setKeyColor({ ...keyColor, [note]: null })} id={note} src={note} />;
+			<div>
+				<Button onClick={() => setShowKeyboard(!showKeyboard)}>
+					{showKeyboard ? <p> Hide keyboard note</p> : <p>Show keyboard note</p>}
+				</Button>
+			</div>
+			{allNotes.map(note => {
+				return (
+					<audio
+						onEnded={() => setKeyColor({ ...keyColor, [note.audio]: null })}
+						id={note.audio}
+						src={note.audio}
+					/>
+				);
 			})}
 			<div className='piano'>
 				{allNotes.map(note => {
@@ -515,7 +489,7 @@ const MyPiano = props => {
 							}
 							onClick={event => playAudio(note.audio, event)}
 						>
-							<p>{note.name}</p>
+							{showKeyboard ? <p>{note.key}</p> : <p>{note.name}</p>}
 						</div>
 					);
 				})}
@@ -532,7 +506,7 @@ const MyPiano = props => {
 					play harry potter{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playNewSong()}>
-					play ur what song{' '}
+					play ur song{' '}
 				</Button>
 
 				<Button className='bouton' onClick={clickRecord}>
