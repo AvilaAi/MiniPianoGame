@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Card, Box } from '@material-ui/core';
 import { FiberManualRecord, Stop } from '@material-ui/icons';
 
 const MyPiano = props => {
@@ -463,14 +463,34 @@ const MyPiano = props => {
 		}
 	};
 	const tips = 'JRYTRIUTRYT67JJRYTRIPO080I94YR';
+
 	return (
 		<div className='page'>
-			<div className='tip'>
+			<div className='tips'>
 				{showHp &&
 					[...tips].map(p => {
-						return <span>{p}</span>;
+						return <span className='tip'>{p}</span>;
 					})}
 			</div>
+			<div className='groupeBouton'>
+				<Button className='bouton' onClick={() => setShowKeyboard(!showKeyboard)}>
+					{showKeyboard ? ' 💻  Hide keyboard note' : '💻   Show keyboard note'}
+				</Button>
+				<Button className='bouton' onClick={() => setShowHp(!showHp)}>
+					<>👩🏻‍🏫</> Learn a song
+				</Button>
+
+				<Button className='bouton' id={record && 'recording'} onClick={clickRecord}>
+					{record ? '⬛️ stop' : '🔴 record'}
+				</Button>
+				<Button className='bouton' onClick={() => playNewSong()}>
+					<> 🎹</> Play{' '}
+				</Button>
+				<Button className='bouton' onClick={() => setShowHp(!showHp)}>
+					<>☑️</> Save
+				</Button>
+			</div>
+
 			{allNotes.map(note => {
 				return (
 					<audio
@@ -491,46 +511,25 @@ const MyPiano = props => {
 							}
 							onClick={event => playAudio(note.audio, event)}
 						>
-							{showKeyboard ? <p>{note.key}</p> : <p>{note.name}</p>}
+							{showKeyboard ? <p className='keyname'>{note.key}</p> : <p>{note.name}</p>}
 						</div>
 					);
 				})}
 			</div>
-			<div style={{ backgroundColor: 'white' }}></div>
+
 			<div className='groupeBouton'>
+				<Box className='box'>Demo songs :</Box>
+
 				<Button className='bouton' onClick={() => playSong()}>
-					Play chihiro{' '}
+					🌸 Spirited Away{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playStar()}>
-					Play twinkle twinkle{' '}
+					⭐️ Twinkle twinkle{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playHp()}>
-					Play harry potter{' '}
-				</Button>
-				<Button className='bouton' onClick={() => playNewSong()}>
-					Play ur song{' '}
-				</Button>
-
-				<Button className='bouton' onClick={clickRecord}>
-					{record ? (
-						<span>
-							stop
-							<Stop />
-						</span>
-					) : (
-						<span>
-							record
-							<FiberManualRecord />
-						</span>
-					)}
+					⚡️ Harry potter Hedwig's theme{' '}
 				</Button>
 			</div>
-			<Button className='bouton' onClick={() => setShowHp(!showHp)}>
-				Learn Hedwig's theme - Harry Potter
-			</Button>
-			<Button className='bouton' onClick={() => setShowKeyboard(!showKeyboard)}>
-				{showKeyboard ? <p> Hide keyboard note</p> : <p>Show keyboard note</p>}
-			</Button>
 		</div>
 	);
 };
