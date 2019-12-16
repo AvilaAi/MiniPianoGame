@@ -11,6 +11,7 @@ const MyPiano = props => {
 	const [newSong, setNewSong] = useState([]);
 	const [record, setRecord] = useState(false);
 	const [showKeyboard, setShowKeyboard] = useState(false);
+	const [showHp, setShowHp] = useState(false);
 
 	var decalage;
 	let c3 = 'audio/c3.mp3';
@@ -468,6 +469,10 @@ const MyPiano = props => {
 				<Button onClick={() => setShowKeyboard(!showKeyboard)}>
 					{showKeyboard ? <p> Hide keyboard note</p> : <p>Show keyboard note</p>}
 				</Button>
+			</div>
+			<div>
+				<Button onClick={() => setShowHp(!showHp)}>Learn Hedwig's theme - Harry Potter</Button>
+				{showHp && <span>JRYT</span>}
 			</div>
 			{allNotes.map(note => {
 				return (
