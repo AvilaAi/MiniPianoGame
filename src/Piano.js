@@ -462,17 +462,14 @@ const MyPiano = props => {
 			playAudio(allNotes[index].audio, e);
 		}
 	};
-
+	const tips = 'JRYTRIUTRYT67JJRYTRIPO080I94YR';
 	return (
 		<div className='page'>
-			<div>
-				<Button onClick={() => setShowKeyboard(!showKeyboard)}>
-					{showKeyboard ? <p> Hide keyboard note</p> : <p>Show keyboard note</p>}
-				</Button>
-			</div>
-			<div>
-				<Button onClick={() => setShowHp(!showHp)}>Learn Hedwig's theme - Harry Potter</Button>
-				{showHp && <span>JRYT</span>}
+			<div className='tip'>
+				{showHp &&
+					[...tips].map(p => {
+						return <span>{p}</span>;
+					})}
 			</div>
 			{allNotes.map(note => {
 				return (
@@ -502,16 +499,16 @@ const MyPiano = props => {
 			<div style={{ backgroundColor: 'white' }}></div>
 			<div className='groupeBouton'>
 				<Button className='bouton' onClick={() => playSong()}>
-					play chihiro{' '}
+					Play chihiro{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playStar()}>
-					play twinkle twinkle{' '}
+					Play twinkle twinkle{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playHp()}>
-					play harry potter{' '}
+					Play harry potter{' '}
 				</Button>
 				<Button className='bouton' onClick={() => playNewSong()}>
-					play ur song{' '}
+					Play ur song{' '}
 				</Button>
 
 				<Button className='bouton' onClick={clickRecord}>
@@ -528,6 +525,12 @@ const MyPiano = props => {
 					)}
 				</Button>
 			</div>
+			<Button className='bouton' onClick={() => setShowHp(!showHp)}>
+				Learn Hedwig's theme - Harry Potter
+			</Button>
+			<Button className='bouton' onClick={() => setShowKeyboard(!showKeyboard)}>
+				{showKeyboard ? <p> Hide keyboard note</p> : <p>Show keyboard note</p>}
+			</Button>
 		</div>
 	);
 };
