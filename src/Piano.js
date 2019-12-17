@@ -292,13 +292,21 @@ const MyPiano = props => {
 	const [newSong, setNewSong] = useState([]);
 	const [record, setRecord] = useState(false);
 	const [showKeyboard, setShowKeyboard] = useState(false);
-	const [showHp, setShowHp] = useState(false);
+
+	const [showTips, setShowTips] = useState({});
+
 	const [popInfo, setPopInfo] = useState(false);
 	const [popSave, setPopSave] = useState(false);
 	const [savedSong, setSavedSong] = useState(null);
+	const [activeButton, setActiveButton] = useState(true);
 
 	var decalage;
 
+	const clickTips = name => {
+		if (showTips[name]) {
+			setShowTips({ ...showTips, [name]: null });
+		} else setShowTips({ [name]: true });
+	};
 	// play single note
 	const playAudio = async (name, event) => {
 		if (record) {
@@ -341,12 +349,15 @@ const MyPiano = props => {
 	// play harry potter
 	const playHp = () => {
 		playAudio(harrypotter[count]);
+		setActiveButton(false);
 		if (count < harrypotter.length) {
 			setTimeout(() => {
 				count++;
 				playHp();
 			}, tempo_harrypotter[count + 1]);
 		} else {
+			setActiveButton(true);
+
 			return false;
 		}
 	};
@@ -371,9 +382,13 @@ const MyPiano = props => {
 			setTimeout(() => {
 				playLeft(star3[i]);
 				playRight(star1[i]);
+				if (i === star3.length) {
+					setActiveButton(true);
+				}
 			}, 300 + offset);
 			offset += 300;
 		}
+		setActiveButton(false);
 	};
 
 	// play chihiro
@@ -406,10 +421,14 @@ const MyPiano = props => {
 			setTimeout(() => {
 				playLeft(left4[r]);
 				playRight(right4[r]);
+				if (r === right4.length) {
+					setActiveButton(true);
+				}
 			}, 270 + offset);
 			offset += 270;
 		}
 		offset = 0;
+		setActiveButton(false);
 	};
 
 	//record
@@ -453,7 +472,7 @@ const MyPiano = props => {
 	// function keyboard
 	document.onkeydown = e => {
 		var keyNum = window.event ? e.keyCode : e.which;
-		if (e.repeat || popSave) return;
+		if (e.repeat || popSave || keyNum === 32) return;
 		const index = keyboard.indexOf(keyNum);
 		if (keyNum === 76) {
 			playAudio(allNotes[12].audio, e);
@@ -463,32 +482,59 @@ const MyPiano = props => {
 		}
 	};
 	const tipsHp = 'JRYTRIUTRYT67JJRYTRIPO080I94YR';
+	const tipsRiver = 'J6I9I9ITIR6RT6KJ4JFJK66RTF6R6K';
+	const tipsElise = 'T7T7TKREJSFJKF4KLFT7T7TKREJLTIOTPOI';
 
 	return (
 		<div className='page'>
 			<div className='tips'>
-				{showHp &&
+				{showTips.showElise || showTips.showHp || showTips.showRiver ? (
+					<h4>Try with your keyboard :</h4>
+				) : (
+					<></>
+				)}
+				{showTips.showHp &&
 					[...tipsHp].map(p => {
-						return <span className='tip'>{p}</span>;
+						return <span className='hp'>{p}</span>;
+					})}
+				{showTips.showRiver &&
+					[...tipsRiver].map(p => {
+						return <span className='river'>{p}</span>;
+					})}
+				{showTips.showElise &&
+					[...tipsElise].map(p => {
+						return <span className='elise'>{p}</span>;
 					})}
 			</div>
+
 			<div className='head'>
 				<div className='groupeBouton'>
+					<Button onClick={() => clickTips('showHp')} className={showTips.showHp && 'bouton active'}>
+						<>🔎</> Tip 1
+					</Button>
+					<Button onClick={() => clickTips('showRiver')} className={showTips.showRiver && 'bouton active'}>
+						<>🔎</> Tip 2
+					</Button>
+					<Button onClick={() => clickTips('showElise')} className={showTips.showElise && 'bouton active'}>
+						<>🔎</> Tip 3
+					</Button>
+				</div>
+				<div className='groupeBouton'>
 					<Button
-						className={showKeyboard ? 'bouton active' : 'bouton showkeboard'}
+						className={showKeyboard ? 'bouton showkeyboard active' : 'bouton showkeyboard'}
 						onClick={() => setShowKeyboard(!showKeyboard)}
 					>
 						{showKeyboard ? ' 💻  Hide keyboard note' : '💻   Show keyboard note'}
 					</Button>
-					<Button onClick={() => setShowHp(!showHp)}>
-						<>🔎</> Learn a song
-					</Button>
 				</div>
 				<div className='groupeBouton'>
-					<Button id={record && 'recording'} onClick={clickRecord}>
+					<Button id={record ? 'recording' : 'false'} onClick={clickRecord}>
 						{record ? '⏹ Stop' : '🔴 Record'}
 					</Button>
-					<Button onClick={() => playNewSong()} disabled={!record && newSong.length > 0 ? false : true}>
+					<Button
+						onClick={() => playNewSong()}
+						disabled={!record && activeButton && newSong.length > 0 ? false : true}
+					>
 						<> ▶️</> Play{' '}
 					</Button>
 					<Button onClick={() => setPopSave(true)} disabled={!record && newSong.length > 0 ? false : true}>
@@ -500,6 +546,7 @@ const MyPiano = props => {
 			{allNotes.map(note => {
 				return (
 					<audio
+						key={note.key}
 						onEnded={() => setKeyColor({ ...keyColor, [note.audio]: null })}
 						id={note.audio}
 						src={note.audio}
@@ -516,6 +563,7 @@ const MyPiano = props => {
 									: `key ${note.type} `
 							}
 							onClick={event => playAudio(note.audio, event)}
+							key={note.key}
 						>
 							{showKeyboard ? <p className='keyname'>{note.key}</p> : <p>{note.name}</p>}
 						</div>
@@ -527,13 +575,13 @@ const MyPiano = props => {
 				<div className='groupeBouton'>
 					<Box className='box'>Demo songs :</Box>
 
-					<Button onClick={() => playSong()}>
+					<Button onClick={() => playSong()} disabled={!activeButton}>
 						<>🌸</> Spirited Away{' '}
 					</Button>
-					<Button onClick={() => playStar()}>
+					<Button onClick={() => playStar()} disabled={!activeButton}>
 						<>⭐️</> Twinkle twinkle{' '}
 					</Button>
-					<Button onClick={() => playHp()}>
+					<Button onClick={() => playHp()} disabled={!activeButton}>
 						<>⚡️ </>Harry Potter Hedwig's theme{' '}
 					</Button>
 				</div>
@@ -589,7 +637,7 @@ const MyPiano = props => {
 					></TextField>
 					<DialogActions>
 						<Button onClick={saveTheSong}>
-							<>✌🏼</>Done !
+							<> 👍🏼 </>Done !
 						</Button>
 					</DialogActions>
 				</DialogContent>
