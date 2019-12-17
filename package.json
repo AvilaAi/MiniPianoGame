@@ -1,7 +1,7 @@
 {
 	"name": "mypiano",
 	"version": "0.1.0",
-	"private": true,
+	"private": false,
 	"dependencies": {
 		"@material-ui/core": "^4.6.0",
 		"react": "^16.12.0",
