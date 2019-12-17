@@ -382,7 +382,7 @@ const MyPiano = props => {
 			setTimeout(() => {
 				playLeft(star3[i]);
 				playRight(star1[i]);
-				if (i === star3.length) {
+				if (i === star3.length - 1) {
 					setActiveButton(true);
 				}
 			}, 300 + offset);
@@ -421,7 +421,7 @@ const MyPiano = props => {
 			setTimeout(() => {
 				playLeft(left4[r]);
 				playRight(right4[r]);
-				if (r === right4.length) {
+				if (r === right4.length - 1) {
 					setActiveButton(true);
 				}
 			}, 270 + offset);
@@ -450,9 +450,13 @@ const MyPiano = props => {
 		for (let i = 0; i < newSong.length; i++) {
 			setTimeout(() => {
 				playRight(newSong[i]);
+				if (i === newSong.length - 1) {
+					setActiveButton(true);
+				}
 			}, tempo[i] + offset);
 			offset += tempo[i];
 		}
+		setActiveButton(false);
 	};
 
 	const saveTheSong = () => {
@@ -465,9 +469,13 @@ const MyPiano = props => {
 		for (let i = 0; i < savedSong.sheet.length; i++) {
 			setTimeout(() => {
 				playAudio(savedSong.sheet[i]);
+				if (i === savedSong.sheet.length - 1) {
+					setActiveButton(true);
+				}
 			}, savedSong.tempo[i] + offset);
 			offset += savedSong.tempo[i];
 		}
+		setActiveButton(false);
 	};
 	// function keyboard
 	document.onkeydown = e => {
@@ -524,7 +532,7 @@ const MyPiano = props => {
 						className={showKeyboard ? 'bouton showkeyboard active' : 'bouton showkeyboard'}
 						onClick={() => setShowKeyboard(!showKeyboard)}
 					>
-						{showKeyboard ? ' 💻  Hide keyboard note' : '💻   Show keyboard note'}
+						<>💻</> Show keyboard note
 					</Button>
 				</div>
 				<div className='groupeBouton'>
