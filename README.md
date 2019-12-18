@@ -2,6 +2,8 @@
 
 A mini piano game
 
- play with mouse and keyboard made with React.js
+played with mouse and keyboard 
 
-Works on Chrome or Firefox, not Safari
+made with React.js
+
+works on Chrome or Firefox, not Safari
