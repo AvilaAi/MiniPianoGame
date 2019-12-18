@@ -536,16 +536,19 @@ const MyPiano = props => {
 					</Button>
 				</div>
 				<div className='groupeBouton'>
-					<Button id={record ? 'recording' : 'false'} onClick={clickRecord}>
+					<Button id={record ? 'recording' : 'false'} onClick={clickRecord} disabled={!activeButton}>
 						{record ? '⏹ Stop' : '🔴 Record'}
 					</Button>
 					<Button
 						onClick={() => playNewSong()}
-						disabled={!record && activeButton && newSong.length > 0 ? false : true}
+						disabled={!record && activeButton && newSong.length > 1 ? false : true}
 					>
 						<> ▶️</> Play{' '}
 					</Button>
-					<Button onClick={() => setPopSave(true)} disabled={!record && newSong.length > 0 ? false : true}>
+					<Button
+						onClick={() => setPopSave(true)}
+						disabled={!record && activeButton && newSong.length > 1 ? false : true}
+					>
 						<>☑️</> Save
 					</Button>
 				</div>
@@ -583,13 +586,13 @@ const MyPiano = props => {
 				<div className='groupeBouton'>
 					<Box className='box'>Demo songs :</Box>
 
-					<Button onClick={() => playSong()} disabled={!activeButton}>
+					<Button onClick={() => playSong()} disabled={record || !activeButton}>
 						<>🌸</> Spirited Away{' '}
 					</Button>
-					<Button onClick={() => playStar()} disabled={!activeButton}>
+					<Button onClick={() => playStar()} disabled={record || !activeButton}>
 						<>⭐️</> Twinkle twinkle{' '}
 					</Button>
-					<Button onClick={() => playHp()} disabled={!activeButton}>
+					<Button onClick={() => playHp()} disabled={record || !activeButton}>
 						<>⚡️ </>Harry Potter Hedwig's theme{' '}
 					</Button>
 				</div>
@@ -597,7 +600,7 @@ const MyPiano = props => {
 					<Box className='box'>Your song :</Box>
 
 					{savedSong && savedSong.sheet ? (
-						<Button onClick={() => playSavedSong()}>
+						<Button onClick={() => playSavedSong()} disabled={record || !activeButton}>
 							<>👏🏼</>
 							{savedSong.name}
 						</Button>
