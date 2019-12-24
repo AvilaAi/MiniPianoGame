@@ -14,7 +14,10 @@ const App = () => {
 				<h3>Play with your mouse or keyboard, have fun ! </h3>
 			</div>
 			<MyPiano />
-			<div class='footer'>&copy; &nbsp;2019&nbsp;|&nbsp;Ai ZHANG</div>
+			<div class='footer'>
+				* Better performance on Chrome or Firefox &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&copy; &nbsp;2019&nbsp;|&nbsp;Ai
+				ZHANG
+			</div>
 		</div>
 	);
 };
