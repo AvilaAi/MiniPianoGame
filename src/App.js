@@ -14,9 +14,9 @@ const App = () => {
 				<h3>Play with your mouse or keyboard, have fun ! </h3>
 			</div>
 			<MyPiano />
-			<div class='footer'>
+			<div class='footer' onClick={() => window.open('https://github.com/AvilaAi/MiniPianoGame', '_blank')}>
 				* Better performance on Chrome or Firefox &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&copy; &nbsp;2019&nbsp;|&nbsp;Ai
-				ZHANG
+				ZHANG | &nbsp;See more information
 			</div>
 		</div>
 	);

@@ -10,4 +10,3 @@ works on Chrome or Firefox, not Safari
 
 http://mini-piano-game.herokuapp.com/
 
-have fun 

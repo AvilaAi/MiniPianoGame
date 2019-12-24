@@ -322,7 +322,7 @@ const MyPiano = props => {
 		var audio = document.getElementById(name);
 		if (audio) {
 			audio.currentTime = 0;
-			audio.volume = 0.5;
+			audio.volume = 0.4;
 
 			audio.play();
 		}
@@ -333,13 +333,13 @@ const MyPiano = props => {
 	const playLeft = name => {
 		setLeft(name);
 		var audio = new Audio(name);
-		audio.volume = 0.5;
+		audio.volume = 0.4;
 		audio.play();
 	};
 	const playRight = name => {
 		setRight(name);
 		var audio = new Audio(name);
-		audio.volume = 0.5;
+		audio.volume = 0.4;
 		audio.play();
 	};
 
