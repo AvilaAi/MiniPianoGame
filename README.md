@@ -10,5 +10,5 @@ audio files made with Garageband
 
 works on Chrome or Firefox, not Safari
 
-https://mini-piano-game.herokuapp.com/
+https://mystifying-keller-7a3139.netlify.app/
 
